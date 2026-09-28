@@ -275,7 +275,9 @@ app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
+    import os
+    port = int(os.environ.get("PORT", 8000))
     print("\n" + "="*70)
-    print(">> OmniSales AI Platform starting at: http://localhost:8000")
+    print(f">> OmniSales AI Platform starting at: http://0.0.0.0:{port}")
     print("="*70 + "\n")
-    uvicorn.run("app:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=port)
