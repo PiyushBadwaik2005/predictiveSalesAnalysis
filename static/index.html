@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniSales AI — Universal Sales Prediction & Decision Intelligence</title>
+  <meta name="description" content="Predict sales for any business with arbitrary parameters, probabilistic forecasting, market sentiment integration, hidden patterns discovery, and prescriptive next-step actions.">
+
+  <!-- Fonts: Outfit (Display) & Inter (UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- App Wrapper -->
+  <div class="app-layout">
+    
+    <!-- Top Header -->
+    <header class="top-nav">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <i data-lucide="trending-up"></i>
+        </div>
+        <div>
+          <div class="brand-title">
+            OmniSales <span class="gradient-text">AI</span>
+          </div>
+          <div class="brand-subtitle">Universal Sales Prediction & Decision Engine</div>
+        </div>
+      </div>
+
+      <!-- Quick Status Indicators -->
+      <div class="nav-status-group">
+        <div class="status-pill" id="engineStatusPill">
+          <span class="status-dot pulse"></span>
+          <span id="engineStatusText">ML Engine Ready</span>
+        </div>
+        <div class="status-pill" id="datasetStatusPill">
+          <i data-lucide="database"></i>
+          <span id="currentDatasetText">E-Commerce Retail</span>
+        </div>
+        <div class="status-pill model-badge" id="championModelPill">
+          <i data-lucide="award"></i>
+          <span id="championModelText">Awaiting Model</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <button class="btn btn-secondary" id="exportReportBtn" title="Export Executive Report">
+          <i data-lucide="file-text"></i>
+          <span>Executive Briefing</span>
+        </button>
+        <button class="btn btn-primary" id="runAiPredictBtn" title="Train all models and generate predictions">
+          <i data-lucide="sparkles"></i>
+          <span>Run AI Prediction</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="sub-nav">
+      <button class="tab-btn active" data-tab="dashboard">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Executive Dashboard</span>
+      </button>
+      <button class="tab-btn" data-tab="whatif">
+        <i data-lucide="sliders"></i>
+        <span>What-If Scenario Sandbox</span>
+      </button>
+      <button class="tab-btn" data-tab="patterns">
+        <i data-lucide="compass"></i>
+        <span>Hidden Patterns & Insights</span>
+      </button>
+      <button class="tab-btn" data-tab="decisions">
+        <i data-lucide="check-circle-2"></i>
+        <span>Strategic Next Steps</span>
+      </button>
+      <button class="tab-btn" data-tab="dataset">
+        <i data-lucide="table"></i>
+        <span>Data & Parameters</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+
+      <!-- ========================================== -->
+      <!-- TOP CONTROL DECK: GOAL & MARKET SENTIMENT  -->
+      <!-- ========================================== -->
+      <section class="control-deck glass-card">
+        <div class="control-grid">
+          
+          <!-- Quick Preset Selector -->
+          <div class="control-col">
+            <label class="control-label">
+              <i data-lucide="folder-open"></i> Quick Industry Datasets
+            </label>
+            <div class="preset-buttons" id="presetButtonsContainer">
+              <button class="preset-btn active" data-preset="ecommerce_retail">
+                <i data-lucide="shopping-bag"></i> Retail / E-Com
+              </button>
+              <button class="preset-btn" data-preset="saas_b2b">
+                <i data-lucide="layers"></i> SaaS / B2B
+              </button>
+              <button class="preset-btn" data-preset="restaurant_hospitality">
+                <i data-lucide="coffee"></i> Restaurant
+              </button>
+              <button class="preset-btn" data-preset="electronics_tech">
+                <i data-lucide="cpu"></i> Tech / Hardware
+              </button>
+            </div>
+          </div>
+
+          <!-- Business Sales Goal Input -->
+          <div class="control-col">
+            <div class="control-label-wrapper">
+              <label class="control-label" for="goalInput">
+                <i data-lucide="target"></i> Business Sales Target (Goal)
+              </label>
+              <span class="info-tag" id="goalComparisonTag">Default: +15% Target</span>
+            </div>
+            <div class="input-with-adornment">
+              <span class="currency-symbol">$</span>
+              <input type="number" id="goalInput" class="form-input" placeholder="e.g. 25000" value="20000" step="100">
+              <button class="quick-step-btn" data-step="1.10" title="+10%">+10%</button>
+              <button class="quick-step-btn" data-step="1.25" title="+25%">+25%</button>
+            </div>
+          </div>
+
+          <!-- Market Sentiment Slider -->
+          <div class="control-col sentiment-col">
+            <div class="control-label-wrapper">
+              <label class="control-label" for="sentimentSlider">
+                <i data-lucide="activity"></i> Macro Market Sentiment
+              </label>
+              <span class="sentiment-indicator-badge" id="sentimentBadge">Moderately Bullish (+15%)</span>
+            </div>
+            <div class="sentiment-slider-wrap">
+              <span class="sentiment-marker left">Bearish (-50%)</span>
+              <input type="range" id="sentimentSlider" min="-50" max="50" value="15" step="1" class="custom-range">
+              <span class="sentiment-marker right">Bullish (+50%)</span>
+            </div>
+            <div class="sentiment-impact-note" id="sentimentImpactNote">
+              <i data-lucide="info"></i> Demand sensitivity lift: +6.0% expected buyer response
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 1: EXECUTIVE DASHBOARD -->
+      <section class="tab-pane active" id="pane-dashboard">
+        
+        <!-- KPI METRICS ROW -->
+        <div class="kpi-grid">
+          
+          <!-- KPI 1: Projected Sales -->
+          <div class="kpi-card glass-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Projected Sales (P50 Expected)</span>
+              <div class="kpi-icon-wrap icon-primary">
+                <i data-lucide="line-chart"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpiProjectedSales">$0.00</div>
+            <div class="kpi-footer">
+              <span class="kpi-delta positive" id="kpiGrowthDelta">+0.0% vs History</span>
+              <span class="kpi-subtext" id="kpiConfidenceInterval">P10 - P90: $0 - $0</span>
+            </div>
+          </div>
+
+          <!-- KPI 2: Goal Probability -->
+          <div class="kpi-card glass-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Goal Achievement Probability</span>
+              <div class="kpi-icon-wrap icon-success">
+                <i data-lucide="target"></i>
+              </div>
+            </div>
+            <div class="kpi-value-with-meter">
+              <div class="kpi-value" id="kpiGoalProbability">0%</div>
+              <span class="badge-status badge-success" id="kpiGoalBadge">Safe Target</span>
+            </div>
+            <div class="kpi-footer">
+              <div class="progress-bar-wrap">
+                <div class="progress-fill" id="goalProgressBar" style="width: 0%"></div>
+              </div>
+              <span class="kpi-subtext" id="kpiGoalGapText">Gap: $0 to target</span>
+            </div>
+          </div>
+
+          <!-- KPI 3: Model Accuracy Score -->
+          <div class="kpi-card glass-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Champion Model Accuracy</span>
+              <div class="kpi-icon-wrap icon-amber">
+                <i data-lucide="shield-check"></i>
+              </div>
+            </div>
+            <div class="kpi-value-with-meter">
+              <div class="kpi-value" id="kpiModelAccuracy">0%</div>
+              <span class="badge-status badge-info" id="kpiChampionName">Evaluating</span>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-stat-item">MAE: <strong id="kpiMae">$0</strong></span>
+              <span class="kpi-stat-item">RMSE: <strong id="kpiRmse">$0</strong></span>
+              <span class="kpi-stat-item">CV R²: <strong id="kpiCvScore">0.00</strong></span>
+            </div>
+          </div>
+
+          <!-- KPI 4: Primary Revenue Driver -->
+          <div class="kpi-card glass-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Primary Revenue Driver</span>
+              <div class="kpi-icon-wrap icon-cyan">
+                <i data-lucide="zap"></i>
+              </div>
+            </div>
+            <div class="kpi-value text-capitalize" id="kpiTopDriver">Analyzing...</div>
+            <div class="kpi-footer">
+              <span class="kpi-delta positive" id="kpiTopDriverImpact">0% Influence</span>
+              <span class="kpi-subtext" id="kpiTopDriverDirection">Positive Correlation</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CHARTS SECTION: FORECAST & GOAL PROBABILITY -->
+        <div class="charts-row">
+          
+          <!-- Chart 1: Probabilistic Forecast Line Chart -->
+          <div class="chart-card glass-card chart-large">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Sales Forecast & Uncertainty Bands (P10 - P50 - P90)</h3>
+                <p class="chart-subtitle">Historical actuals vs future projections with probabilistic confidence bounds & business goal line</p>
+              </div>
+              <div class="chart-legend-custom">
+                <span class="legend-item"><span class="legend-color legend-hist"></span> Historical</span>
+                <span class="legend-item"><span class="legend-color legend-forecast"></span> Expected (P50)</span>
+                <span class="legend-item"><span class="legend-color legend-band"></span> 80% Confidence Band</span>
+                <span class="legend-item"><span class="legend-color legend-goal"></span> Target Goal</span>
+              </div>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="forecastChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: Goal Probability Bell Curve -->
+          <div class="chart-card glass-card chart-medium">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Goal Probability Density</h3>
+                <p class="chart-subtitle">Monte Carlo distribution of forecast outcomes relative to your goal</p>
+              </div>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="goalBellChart"></canvas>
+            </div>
+            <div class="goal-verdict-box" id="goalVerdictBox">
+              <i data-lucide="check-circle" class="verdict-icon"></i>
+              <div id="goalVerdictText">Loading goal analysis...</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CHARTS SECTION: FEATURE IMPORTANCE & CORRELATIONS -->
+        <div class="charts-row">
+          
+          <!-- Chart 3: Key Drivers / Feature Importance -->
+          <div class="chart-card glass-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Key Parameter Influence Ranking</h3>
+                <p class="chart-subtitle">Normalized feature weights showing which parameters drive sales variations</p>
+              </div>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="featureImportanceChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 4: Correlation Matrix -->
+          <div class="chart-card glass-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Parameter Correlations with Sales</h3>
+                <p class="chart-subtitle">Directional strength (-1.0 to +1.0) of each parameter against target revenue</p>
+              </div>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="correlationChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- TAB 2: WHAT-IF SCENARIO SANDBOX -->
+      <section class="tab-pane" id="pane-whatif">
+        <div class="sandbox-container">
+          
+          <!-- Sandbox Controls Sidebar -->
+          <div class="sandbox-controls glass-card">
+            <div class="sandbox-header">
+              <div>
+                <h3 class="card-title">
+                  <i data-lucide="sliders"></i> Interactive Parameter Sandbox
+                </h3>
+                <p class="card-subtitle">Adjust any parameter slider to simulate instant sales predictions and see if your changes achieve the goal.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="resetSandboxBtn">
+                <i data-lucide="rotate-ccw"></i> Reset Defaults
+              </button>
+            </div>
+
+            <!-- Dynamic Sliders Container -->
+            <div class="sliders-list" id="sandboxSlidersList">
+              <div class="empty-state">
+                <i data-lucide="loader-2" class="spin"></i>
+                <p>Train a dataset to load dynamic parameter sliders...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sandbox Live Results Output -->
+          <div class="sandbox-output glass-card">
+            <h3 class="card-title">
+              <i data-lucide="gauge"></i> Simulated Impact & Goal Feasibility
+            </h3>
+            <p class="card-subtitle">Real-time model inference based on your sandbox configuration</p>
+
+            <div class="sim-metric-hero">
+              <div class="sim-label">Projected Sales in This Scenario</div>
+              <div class="sim-value" id="simPredictedSales">$0.00</div>
+              <div class="sim-comparison">
+                <span class="kpi-delta" id="simDeltaBadge">+0.0% vs Baseline</span>
+                <span class="sim-delta-amount" id="simDeltaAmount">+$0.00 difference</span>
+              </div>
+            </div>
+
+            <!-- Simulated Goal Meter -->
+            <div class="sim-goal-gauge-box">
+              <div class="gauge-header">
+                <span class="gauge-title">Probability of Hitting Goal in this Scenario</span>
+                <span class="gauge-percent" id="simGoalProbPercent">0%</span>
+              </div>
+              <div class="progress-bar-wrap large">
+                <div class="progress-fill" id="simGoalProgressBar" style="width: 0%"></div>
+              </div>
+              <div class="gauge-footer" id="simGoalVerdict">
+                Target: $0.00
+              </div>
+            </div>
+
+            <!-- Scenario Parameter Snapshot -->
+            <div class="snapshot-box">
+              <h4 class="snapshot-title">Parameters in this Test Run</h4>
+              <div class="snapshot-chips" id="simSnapshotChips">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 3: HIDDEN PATTERNS & INSIGHTS -->
+      <section class="tab-pane" id="pane-patterns">
+        <div class="patterns-deck">
+          
+          <div class="section-intro glass-card">
+            <div class="intro-icon">
+              <i data-lucide="sparkles"></i>
+            </div>
+            <div>
+              <h2 class="intro-title">Autonomous Pattern Discovery</h2>
+              <p class="intro-desc">
+                Our machine learning engine analyzed multi-variate interactions across your business parameters. 
+                Below are the critical hidden relationships, saturation thresholds, and anomalies detected.
+              </p>
+            </div>
+          </div>
+
+          <!-- Dynamic Pattern Cards Grid -->
+          <div class="patterns-grid" id="patternsGrid">
+            <div class="empty-state">
+              <i data-lucide="loader-2" class="spin"></i>
+              <p>Analyzing dataset patterns and non-linearities...</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 4: STRATEGIC NEXT STEPS & DECISION GUIDANCE -->
+      <section class="tab-pane" id="pane-decisions">
+        <div class="decisions-deck">
+          
+          <div class="section-intro glass-card">
+            <div class="intro-icon icon-success">
+              <i data-lucide="compass"></i>
+            </div>
+            <div>
+              <h2 class="intro-title">Prescriptive Decision Guidance</h2>
+              <p class="intro-desc">
+                AI-formulated strategic action steps tailored to bridge your revenue gap, exploit top marginal ROI levers, 
+                and protect your business against market sentiment headwinds.
+              </p>
+            </div>
+          </div>
+
+          <!-- Strategic Recommendations List -->
+          <div class="recommendations-list" id="recommendationsList">
+            <div class="empty-state">
+              <i data-lucide="loader-2" class="spin"></i>
+              <p>Generating strategic decision guidance...</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 5: DATA & PARAMETERS EXPLORER -->
+      <section class="tab-pane" id="pane-dataset">
+        <div class="dataset-explorer-deck">
+          
+          <!-- CSV Upload Area -->
+          <div class="upload-card glass-card">
+            <h3 class="card-title"><i data-lucide="upload-cloud"></i> Upload Custom Business Dataset</h3>
+            <p class="card-subtitle">Drag and drop ANY business data (CSV format) with arbitrary parameters to predict sales.</p>
+            
+            <div class="drop-zone" id="dropZone">
+              <input type="file" id="csvFileInput" accept=".csv,.txt" class="file-input-hidden">
+              <div class="drop-zone-content">
+                <div class="drop-icon">
+                  <i data-lucide="file-spreadsheet"></i>
+                </div>
+                <h4>Drag & Drop your CSV file here</h4>
+                <p>or click to browse from your computer</p>
+                <span class="file-support-tag">Supports any parameters (e.g. Marketing, Pricing, Footfall, Inventory, Staff, Reviews)</span>
+              </div>
+            </div>
+            
+            <div class="upload-status" id="uploadStatusMessage"></div>
+          </div>
+
+          <!-- Schema Configuration Card -->
+          <div class="schema-card glass-card">
+            <h3 class="card-title"><i data-lucide="settings"></i> Target & Parameter Mapping</h3>
+            <p class="card-subtitle">Verify the auto-detected target column (sales/revenue) and active feature parameters.</p>
+
+            <div class="schema-grid">
+              
+              <div class="form-group">
+                <label class="form-label" for="targetColSelect">
+                  <i data-lucide="crosshair"></i> Target Column (Sales / Revenue)
+                </label>
+                <select id="targetColSelect" class="form-select">
+                  <option value="">Select target column...</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="dateColSelect">
+                  <i data-lucide="calendar"></i> Date / Time Column (Optional)
+                </label>
+                <select id="dateColSelect" class="form-select">
+                  <option value="">No date column (Use row sequence)</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- Features Checkboxes -->
+            <div class="features-selection-wrap">
+              <div class="features-header">
+                <span class="features-title">Active Feature Parameters:</span>
+                <div class="features-quick-actions">
+                  <button class="link-btn" id="selectAllFeaturesBtn">Select All</button>
+                  <button class="link-btn" id="deselectAllFeaturesBtn">Clear</button>
+                </div>
+              </div>
+              <div class="feature-chips-container" id="featureChipsContainer">
+                <!-- Checkbox chips populated dynamically -->
+              </div>
+            </div>
+
+            <div class="schema-actions">
+              <button class="btn btn-primary" id="applySchemaAndTrainBtn">
+                <i data-lucide="play"></i> Apply Settings & Retrain Models
+              </button>
+            </div>
+          </div>
+
+          <!-- Data Preview Table -->
+          <div class="table-card glass-card">
+            <div class="table-header">
+              <div>
+                <h3 class="card-title"><i data-lucide="table"></i> Data Preview</h3>
+                <p class="card-subtitle" id="tablePreviewCount">Showing first 5 rows</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table" id="datasetPreviewTable">
+                <thead>
+                  <tr id="previewTableHead"></tr>
+                </thead>
+                <tbody id="previewTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <div class="footer-left">
+          <span>OmniSales AI Platform</span> • Enterprise Decision Engine • Gradient Boosting & Monte Carlo Architecture
+        </div>
+        <div class="footer-right">
+          <span class="system-indicator"><span class="dot-online"></span> Ready for Any Business Parameters</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- EXECUTIVE REPORT MODAL -->
+  <div class="modal-overlay" id="reportModal">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="file-text" class="modal-icon"></i>
+          <div>
+            <h3 class="modal-title">Executive Sales Forecast & Strategy Briefing</h3>
+            <p class="modal-subtitle" id="modalDatasetSubtitle">Generated by OmniSales AI Universal Engine</p>
+          </div>
+        </div>
+        <button class="btn-close" id="closeReportModalBtn">&times;</button>
+      </div>
+      <div class="modal-body" id="reportBodyContent">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="window.print()">
+          <i data-lucide="printer"></i> Print / Save as PDF
+        </button>
+        <button class="btn btn-primary" id="dismissReportModalBtn">
+          Close Briefing
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
