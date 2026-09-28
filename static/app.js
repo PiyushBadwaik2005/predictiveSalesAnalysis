@@ -1051,7 +1051,7 @@ async function populateExecutiveReport() {
       </p>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px;">
+    <div class="modal-kpi-grid">
       <div style="background: rgba(255,255,255,0.03); padding: 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
         <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Expected Average Sales</div>
         <div style="font-size: 20px; font-weight: 700; color: #6366f1; margin-top: 4px;">
