@@ -141,11 +141,15 @@
               <span class="info-tag" id="goalComparisonTag">Default: +15% Target</span>
             </div>
             <div class="input-with-adornment">
-              <span class="currency-symbol">$</span>
-              <input type="number" id="goalInput" class="form-input" placeholder="e.g. 25000" value="20000" step="100">
-              <button class="quick-step-btn" data-step="0.90" title="-10%">-10%</button>
-              <button class="quick-step-btn" data-step="1.10" title="+10%">+10%</button>
-              <button class="quick-step-btn" data-step="1.25" title="+25%">+25%</button>
+              <div class="input-field-wrap">
+                <span class="currency-symbol">$</span>
+                <input type="number" id="goalInput" class="form-input" placeholder="e.g. 25000" value="20000" step="100">
+              </div>
+              <div class="step-buttons-group">
+                <button class="quick-step-btn" data-step="0.90" title="-10%">-10%</button>
+                <button class="quick-step-btn" data-step="1.10" title="+10%">+10%</button>
+                <button class="quick-step-btn" data-step="1.25" title="+25%">+25%</button>
+              </div>
             </div>
           </div>
 
@@ -158,9 +162,11 @@
               <span class="sentiment-indicator-badge" id="sentimentBadge">Moderately Bullish (+15%)</span>
             </div>
             <div class="sentiment-slider-wrap">
-              <span class="sentiment-marker left">🐻 Bearish (-50%)</span>
               <input type="range" id="sentimentSlider" min="-50" max="50" value="15" step="1" class="custom-range">
-              <span class="sentiment-marker right">🚀 Bullish (+50%)</span>
+              <div class="sentiment-markers-row">
+                <span class="sentiment-marker left">🐻 Bearish (-50%)</span>
+                <span class="sentiment-marker right">🚀 Bullish (+50%)</span>
+              </div>
             </div>
             <div class="sentiment-impact-note" id="sentimentImpactNote">
               <i data-lucide="info"></i> Demand sensitivity lift: +6.0% expected buyer response

@@ -53,7 +53,7 @@
 
 html, body {
   width: 100%;
-  overflow-x: hidden;
+  max-width: 100%;
   position: relative;
 }
 
@@ -504,8 +504,16 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
+}
+
+.input-field-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
 }
 
 .currency-symbol {
@@ -515,10 +523,11 @@ body {
   font-size: 15px;
   font-weight: 600;
   pointer-events: none;
+  z-index: 2;
 }
 
 .form-input {
-  flex: 1;
+  width: 100%;
   min-width: 0;
   padding: 9px 10px 9px 28px;
   border-radius: var(--radius-sm);
@@ -536,6 +545,13 @@ body {
 .form-input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.step-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .quick-step-btn {
@@ -576,8 +592,15 @@ body {
 
 .sentiment-slider-wrap {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.sentiment-markers-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
   width: 100%;
 }
 
@@ -591,7 +614,7 @@ body {
 }
 
 .custom-range {
-  flex: 1;
+  width: 100%;
   -webkit-appearance: none;
   appearance: none;
   height: 6px;
@@ -712,6 +735,9 @@ body {
   padding: 3px 8px;
   border-radius: var(--radius-full);
   white-space: nowrap;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .badge-success { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; }
@@ -845,6 +871,14 @@ body {
   flex: 1;
   min-height: 280px;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.chart-canvas-wrapper canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block;
 }
 
 .goal-verdict-box {
@@ -1778,10 +1812,11 @@ body {
 @media (min-width: 1200px) {
   .top-nav {
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding: 14px 32px;
-    gap: 20px;
+    gap: 16px;
   }
 
   .nav-top-row {
@@ -1792,7 +1827,8 @@ body {
   .nav-status-track {
     width: auto;
     flex: 1;
-    justify-content: center;
+    min-width: 0;
+    justify-content: flex-end;
     padding-bottom: 0;
   }
 }
@@ -1901,6 +1937,27 @@ body {
     font-size: 11px;
   }
 
+  .input-with-adornment {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .input-field-wrap {
+    width: 100%;
+  }
+
+  .step-buttons-group {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+  }
+
+  .quick-step-btn {
+    flex: 1;
+    text-align: center;
+  }
+
   .kpi-grid {
     grid-template-columns: repeat(2, 1fr); /* 2x2 grid on mobile */
     gap: 10px;
@@ -1927,6 +1984,10 @@ body {
   .schema-grid {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .schema-actions .btn {
+    width: 100%;
   }
 
   .recommendation-card {
@@ -1964,28 +2025,14 @@ body {
   }
 }
 
-/* 4. Ultra-Compact Mobile Phones (<= 400px) */
-@media (max-width: 400px) {
+/* 4. Compact Mobile Phones (<= 480px) */
+@media (max-width: 480px) {
   .kpi-grid {
-    grid-template-columns: 1fr; /* Single column on tiny screens */
+    grid-template-columns: 1fr; /* Single column on compact phone screens */
   }
 
   .preset-buttons {
     grid-template-columns: 1fr;
-  }
-
-  .input-with-adornment {
-    flex-wrap: wrap;
-  }
-
-  .form-input {
-    width: 100%;
-    flex: none;
-  }
-
-  .quick-step-btn {
-    flex: 1;
-    text-align: center;
   }
 
   .recommendation-card {
@@ -1999,5 +2046,17 @@ body {
 
   .modal-footer .btn {
     width: 100%;
+  }
+
+  .top-nav {
+    padding: 8px 10px 6px;
+  }
+
+  .main-container {
+    padding: 12px 8px 24px;
+  }
+
+  .control-deck {
+    padding: 12px 10px;
   }
 }

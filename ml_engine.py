@@ -471,16 +471,16 @@ class SalesMLEngine:
         status = "On Track"
         badge = "success"
         if prob_pct >= 75:
-            status = "High Probability (Safe Target)"
+            status = "Safe Target"
             badge = "success"
         elif prob_pct >= 50:
-            status = "Moderate Probability (Achievable with Optimization)"
+            status = "Moderate"
             badge = "warning"
         elif prob_pct >= 25:
-            status = "Challenging (Requires Strategic Levers)"
+            status = "Challenging"
             badge = "danger"
         else:
-            status = "Critical Gap (Significant Intervention Needed)"
+            status = "Critical Gap"
             badge = "danger"
 
         # Generate bell curve data points for probability density chart
