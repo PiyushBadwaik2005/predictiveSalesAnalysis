@@ -90,12 +90,18 @@ function setupPresetButtons() {
 function setupControlDeck() {
   // Goal Input
   const goalInput = document.getElementById('goalInput');
+  const updateNavGoal = (val) => {
+    const navGoal = document.getElementById('navGoalText');
+    if (navGoal) navGoal.textContent = `Target: ${formatCurrency(val)}`;
+  };
+
   goalInput.addEventListener('change', () => {
     state.goalTarget = parseFloat(goalInput.value) || 0;
+    updateNavGoal(state.goalTarget);
     triggerTraining();
   });
 
-  // Quick Step Buttons (+10%, +25%)
+  // Quick Step Buttons (-10%, +10%, +25%)
   document.querySelectorAll('.quick-step-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mult = parseFloat(btn.dataset.step);
@@ -103,6 +109,7 @@ function setupControlDeck() {
       const nextVal = Math.round(cur * mult);
       goalInput.value = nextVal;
       state.goalTarget = nextVal;
+      updateNavGoal(nextVal);
       triggerTraining();
     });
   });
@@ -998,6 +1005,17 @@ function renderSimulationResults(res) {
     `Target Goal: ${formatCurrency(res.goal_target || state.goalTarget)} • Status: ${
       prob >= 75 ? 'Goal Achieved' : prob >= 50 ? 'Close to Goal' : 'Under Target'
     }`;
+
+  // Mobile Sticky Live HUD updates
+  const hudSales = document.getElementById('hudPredictedSales');
+  const hudDelta = document.getElementById('hudDeltaBadge');
+  const hudProb = document.getElementById('hudGoalProb');
+  if (hudSales) hudSales.textContent = formatCurrency(res.predicted_sales);
+  if (hudDelta) {
+    hudDelta.textContent = `${res.delta_percent >= 0 ? '+' : ''}${res.delta_percent.toFixed(1)}%`;
+    hudDelta.className = `hud-delta ${res.delta_percent >= 0 ? 'positive' : 'negative'}`;
+  }
+  if (hudProb) hudProb.textContent = `${prob}%`;
 
   // Snapshot chips
   const chipsWrap = document.getElementById('simSnapshotChips');

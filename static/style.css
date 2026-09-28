@@ -132,18 +132,45 @@ body {
    ========================================================================== */
 .top-nav {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 32px;
-  background: rgba(10, 14, 23, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  flex-direction: column;
+  padding: 12px 24px 8px;
+  background: rgba(10, 14, 23, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
   z-index: 100;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.nav-status-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.nav-status-track::-webkit-scrollbar {
+  display: none;
+}
+
+.status-pill.goal-pill {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
 }
 
 .nav-brand {
@@ -154,8 +181,8 @@ body {
 }
 
 .brand-icon {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
   display: flex;
@@ -167,13 +194,13 @@ body {
 }
 
 .brand-icon i {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .brand-title {
   font-family: var(--font-display);
-  font-size: clamp(18px, 3.5vw, 22px);
+  font-size: clamp(17px, 3.2vw, 21px);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-highlight);
@@ -192,13 +219,6 @@ body {
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.nav-status-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
 }
 
 .status-pill {
@@ -1693,40 +1713,112 @@ body {
   background: rgba(255, 255, 255, 0.25);
 }
 
+/* Mobile Sticky Real-Time Simulation HUD */
+.mobile-sim-hud {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 108px;
+  z-index: 40;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hud-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.hud-val {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hud-delta {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hud-delta.positive { color: #34d399; }
+.hud-delta.negative { color: #fb7185; }
+
+.hud-prob {
+  font-size: 13px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
 /* ==========================================================================
    Comprehensive Responsive Breakpoints
    ========================================================================== */
 
-/* 1. Large Tablets & Small Laptops (<= 1200px) */
-@media (max-width: 1200px) {
+/* ==========================================================================
+   Comprehensive Responsive Breakpoints (Mobile, Tablet, Desktop)
+   ========================================================================== */
+
+/* 1. Large Desktops & Widescreens (>= 1200px) */
+@media (min-width: 1200px) {
   .top-nav {
-    padding: 14px 24px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    gap: 20px;
   }
 
-  .main-container {
-    padding: 20px 24px 40px;
+  .nav-top-row {
+    width: auto;
+    gap: 20px;
   }
 
-  .sub-nav {
-    padding: 8px 24px;
-  }
-
-  .kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+  .nav-status-track {
+    width: auto;
+    flex: 1;
+    justify-content: center;
+    padding-bottom: 0;
   }
 }
 
-/* 2. Medium Tablets (<= 1024px) */
-@media (max-width: 1024px) {
+/* 2. Tablets & Small Laptops (<= 1100px) */
+@media (max-width: 1100px) {
+  .top-nav {
+    padding: 12px 20px 8px;
+  }
+
+  .main-container {
+    padding: 18px 20px 36px;
+  }
+
+  .sub-nav {
+    padding: 8px 20px;
+  }
+
   .control-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px;
   }
 
   .charts-row {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px;
   }
 
   .sandbox-container {
@@ -1734,7 +1826,11 @@ body {
   }
 
   .sandbox-output {
-    order: -1; /* Show simulated result above sliders on tablet/mobile */
+    order: -1; /* Display simulated output above sliders on tablet/mobile */
+  }
+
+  .mobile-sim-hud {
+    display: flex;
   }
 
   .patterns-grid {
@@ -1742,15 +1838,11 @@ body {
   }
 }
 
-/* 3. Small Tablets & Large Phones (<= 768px) */
+/* 3. Small Tablets & Mobile Phones (<= 768px) */
 @media (max-width: 768px) {
   .top-nav {
-    padding: 12px 16px;
-    gap: 12px;
-  }
-
-  .nav-brand {
-    gap: 10px;
+    padding: 10px 14px 6px;
+    gap: 8px;
   }
 
   .brand-icon {
@@ -1764,82 +1856,101 @@ body {
   }
 
   .brand-subtitle {
-    display: none; /* Keep header compact on mobile */
-  }
-
-  .nav-actions {
-    margin-left: auto;
-  }
-
-  .nav-actions .btn span {
-    display: none; /* Show icon only on small buttons if crowded */
-  }
-
-  .nav-actions .btn {
-    padding: 8px 12px;
-  }
-
-  .nav-status-group {
-    width: 100%;
-    order: 3;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-
-  .nav-status-group::-webkit-scrollbar {
     display: none;
   }
 
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .nav-actions .btn {
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+
+  .btn-text {
+    display: none; /* Icon-only buttons on small mobile headers for maximum space */
+  }
+
   .sub-nav {
-    padding: 6px 14px;
+    padding: 6px 12px;
+  }
+
+  .tab-btn {
+    padding: 7px 12px;
+    font-size: 12px;
   }
 
   .main-container {
-    padding: 16px 14px 32px;
+    padding: 14px 12px 30px;
   }
 
   .control-deck {
-    padding: 16px;
+    padding: 14px;
   }
 
   .preset-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
   }
 
   .preset-btn {
     justify-content: center;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid on mobile */
+    gap: 10px;
+  }
+
+  .kpi-card {
+    padding: 14px 12px;
+  }
+
+  .kpi-title {
+    font-size: 10px;
+  }
+
+  .kpi-icon-wrap {
+    width: 28px;
+    height: 28px;
+  }
+
+  .kpi-icon-wrap i {
+    width: 14px;
+    height: 14px;
   }
 
   .schema-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 12px;
   }
 
   .recommendation-card {
-    padding: 18px;
-    gap: 14px;
+    padding: 16px;
+    gap: 12px;
   }
 
   .section-intro {
-    padding: 16px 18px;
-    gap: 14px;
+    padding: 14px 16px;
+    gap: 12px;
   }
 
   .intro-icon {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
 
   .intro-icon i {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 
   .chart-canvas-wrapper {
-    min-height: 250px;
+    min-height: 240px;
   }
 
   .modal-kpi-grid {
@@ -1849,46 +1960,37 @@ body {
   .footer-content {
     flex-direction: column;
     text-align: center;
-    gap: 8px;
+    gap: 6px;
   }
 }
 
-/* 4. Small Mobile Phones (<= 480px) */
-@media (max-width: 480px) {
+/* 4. Ultra-Compact Mobile Phones (<= 400px) */
+@media (max-width: 400px) {
   .kpi-grid {
-    grid-template-columns: 1fr; /* Clean stacked view on tiny screens */
-    gap: 12px;
-  }
-
-  .kpi-card {
-    padding: 16px;
-  }
-
-  .chart-card {
-    padding: 16px;
-  }
-
-  .sandbox-controls, .sandbox-output {
-    padding: 16px;
-  }
-
-  .upload-card, .schema-card, .table-card {
-    padding: 16px;
+    grid-template-columns: 1fr; /* Single column on tiny screens */
   }
 
   .preset-buttons {
-    grid-template-columns: 1fr; /* 1 full-width button per row */
+    grid-template-columns: 1fr;
+  }
+
+  .input-with-adornment {
+    flex-wrap: wrap;
+  }
+
+  .form-input {
+    width: 100%;
+    flex: none;
+  }
+
+  .quick-step-btn {
+    flex: 1;
+    text-align: center;
   }
 
   .recommendation-card {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .rec-priority-num {
-    width: 28px;
-    height: 28px;
-    font-size: 13px;
   }
 
   .modal-footer {
@@ -1897,9 +1999,5 @@ body {
 
   .modal-footer .btn {
     width: 100%;
-  }
-
-  .drop-zone {
-    padding: 24px 12px;
   }
 }

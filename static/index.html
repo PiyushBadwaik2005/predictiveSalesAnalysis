@@ -31,20 +31,34 @@
     
     <!-- Top Header -->
     <header class="top-nav">
-      <div class="nav-brand">
-        <div class="brand-icon">
-          <i data-lucide="trending-up"></i>
-        </div>
-        <div>
-          <div class="brand-title">
-            OmniSales <span class="gradient-text">AI</span>
+      <div class="nav-top-row">
+        <div class="nav-brand">
+          <div class="brand-icon">
+            <i data-lucide="trending-up"></i>
           </div>
-          <div class="brand-subtitle">Universal Sales Prediction & Decision Engine</div>
+          <div>
+            <div class="brand-title">
+              OmniSales <span class="gradient-text">AI</span>
+            </div>
+            <div class="brand-subtitle">Universal Sales Prediction & Decision Engine</div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="nav-actions">
+          <button class="btn btn-secondary" id="exportReportBtn" title="Export Executive Report">
+            <i data-lucide="file-text"></i>
+            <span class="btn-text">Executive Briefing</span>
+          </button>
+          <button class="btn btn-primary" id="runAiPredictBtn" title="Train all models and generate predictions">
+            <i data-lucide="sparkles"></i>
+            <span class="btn-text">Run AI Prediction</span>
+          </button>
         </div>
       </div>
 
-      <!-- Quick Status Indicators -->
-      <div class="nav-status-group">
+      <!-- Quick Status Indicators / Ticker Ribbon -->
+      <div class="nav-status-track" id="navStatusTrack">
         <div class="status-pill" id="engineStatusPill">
           <span class="status-dot pulse"></span>
           <span id="engineStatusText">ML Engine Ready</span>
@@ -57,18 +71,10 @@
           <i data-lucide="award"></i>
           <span id="championModelText">Awaiting Model</span>
         </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="nav-actions">
-        <button class="btn btn-secondary" id="exportReportBtn" title="Export Executive Report">
-          <i data-lucide="file-text"></i>
-          <span>Executive Briefing</span>
-        </button>
-        <button class="btn btn-primary" id="runAiPredictBtn" title="Train all models and generate predictions">
-          <i data-lucide="sparkles"></i>
-          <span>Run AI Prediction</span>
-        </button>
+        <div class="status-pill goal-pill" id="navGoalPill">
+          <i data-lucide="target"></i>
+          <span id="navGoalText">Target: $20,000</span>
+        </div>
       </div>
     </header>
 
@@ -137,6 +143,7 @@
             <div class="input-with-adornment">
               <span class="currency-symbol">$</span>
               <input type="number" id="goalInput" class="form-input" placeholder="e.g. 25000" value="20000" step="100">
+              <button class="quick-step-btn" data-step="0.90" title="-10%">-10%</button>
               <button class="quick-step-btn" data-step="1.10" title="+10%">+10%</button>
               <button class="quick-step-btn" data-step="1.25" title="+25%">+25%</button>
             </div>
@@ -151,9 +158,9 @@
               <span class="sentiment-indicator-badge" id="sentimentBadge">Moderately Bullish (+15%)</span>
             </div>
             <div class="sentiment-slider-wrap">
-              <span class="sentiment-marker left">Bearish (-50%)</span>
+              <span class="sentiment-marker left">🐻 Bearish (-50%)</span>
               <input type="range" id="sentimentSlider" min="-50" max="50" value="15" step="1" class="custom-range">
-              <span class="sentiment-marker right">Bullish (+50%)</span>
+              <span class="sentiment-marker right">🚀 Bullish (+50%)</span>
             </div>
             <div class="sentiment-impact-note" id="sentimentImpactNote">
               <i data-lucide="info"></i> Demand sensitivity lift: +6.0% expected buyer response
@@ -316,6 +323,22 @@
 
       <!-- TAB 2: WHAT-IF SCENARIO SANDBOX -->
       <section class="tab-pane" id="pane-whatif">
+        <!-- Mobile Sticky Live Prediction HUD -->
+        <div class="mobile-sim-hud glass-card" id="mobileSimHud">
+          <div class="hud-item">
+            <span class="hud-label">Projected Sales</span>
+            <span class="hud-val" id="hudPredictedSales">$0.00</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">Delta vs Baseline</span>
+            <span class="hud-delta positive" id="hudDeltaBadge">+0.0%</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">Goal Hit %</span>
+            <span class="hud-prob" id="hudGoalProb">0%</span>
+          </div>
+        </div>
+
         <div class="sandbox-container">
           
           <!-- Sandbox Controls Sidebar -->
